@@ -1,11 +1,11 @@
 # Dataset
-# ../Dataset/
+# ../../Data/
 # deepblending/drjohnson, playroom
 # tanksandtemples/train, truck
 # Mip-NeRF360/bicycle, bonsai, counter, flowers, garden, kitchen, room, stump, treehill
 
 # Output
-# ../Output/
+# ../exps/
 
 # Train
 python train.py -s <Dataset> -m <Output> 
