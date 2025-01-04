@@ -4,27 +4,22 @@ import random
 current_time = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
 port = random.randint(10000, 30000)
 
-data_root = '../../Data/Mip-NeRF360'
-exp_name = f'../exps/reproduce/Mip-NeRF360-{current_time}'
-mipnerf360_outdoor_scenes = ["bicycle", "flowers", "garden", "stump", "treehill"]
-mipnerf360_indoor_scenes = ["room", "counter", "kitchen", "bonsai"]
-gpu = 1
+data_root = '/home/zhenhua2023/Proj/3Dv_Reconstruction/GS-Reconstruction/Data/ScanNetpp'
+exp_name = f'../exps/reproduce/scannetpp-{current_time}'
+scannetpp_scenes = ['8b5caf3398', '116456116b', '13c3e046d7', '0a184cf634', '578511c8a9', '21d970d8de']
+gpu = 2
 
 cmd_lis = []
-for scene in (mipnerf360_outdoor_scenes+mipnerf360_indoor_scenes):
+for scene in scannetpp_scenes:
     
     source_args = " -s " + data_root + "/" + scene
     exp_args = " -m " + exp_name+"/"+scene
     
     # training
-    train_args = source_args + exp_args + f" --eval --port {port}"
-    if scene in mipnerf360_outdoor_scenes:
-        train_args += " -i images_4"
-    elif scene in mipnerf360_indoor_scenes:
-        train_args += " -i images_2"
+    train_args = source_args + exp_args + f" -r 2 --eval --port {port}"
     cmd_lis.append(f"CUDA_VISIBLE_DEVICES={gpu} python train.py" + train_args)
 
-    # rendering images
+    # # rendering images
     cmd_lis.append(f"CUDA_VISIBLE_DEVICES={gpu} python render.py" + source_args + exp_args)
 
     # NVS metricd and visualization
