@@ -8,7 +8,7 @@ data_root = '../../Data/Mip-NeRF360'
 exp_name = f'../exps/reproduce/Mip-NeRF360-{current_time}'
 mipnerf360_outdoor_scenes = ["bicycle", "flowers", "garden", "stump", "treehill"]
 mipnerf360_indoor_scenes = ["room", "counter", "kitchen", "bonsai"]
-gpu = 1
+gpu = 3
 
 cmd_lis = []
 for scene in (mipnerf360_outdoor_scenes+mipnerf360_indoor_scenes):
@@ -18,10 +18,10 @@ for scene in (mipnerf360_outdoor_scenes+mipnerf360_indoor_scenes):
     
     # training
     train_args = source_args + exp_args + f" --eval --port {port}"
-    if scene in mipnerf360_outdoor_scenes:
-        train_args += " -i images_4"
-    elif scene in mipnerf360_indoor_scenes:
-        train_args += " -i images_2"
+    # if scene in mipnerf360_outdoor_scenes:
+    #     train_args += " -i images_4"
+    # elif scene in mipnerf360_indoor_scenes:
+    #     train_args += " -i images_2"
     cmd_lis.append(f"CUDA_VISIBLE_DEVICES={gpu} python train.py" + train_args)
 
     # rendering images

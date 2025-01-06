@@ -179,7 +179,10 @@ def readColmapSceneInfo(path, images, depths, eval, train_test_exp, llffhold=8):
     if eval:
         if "360" in path:
             llffhold = 8
-        if llffhold:
+        if os.path.exists(os.path.join(path, "train_test_lists.json")):
+            train_test_lists = json.load(open(os.path.join(path, "train_test_lists.json")))
+            test_cam_names_list = [i for i in train_test_lists["test"]]
+        elif llffhold:
             print("------------LLFF HOLD-------------")
             cam_names = [cam_extrinsics[cam_id].name for cam_id in cam_extrinsics]
             cam_names = sorted(cam_names)
